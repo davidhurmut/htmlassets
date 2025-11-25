@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Assets</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 50px;
+    margin: 0;
+}
+
+.selector {
+    background: #222;
+    border-radius: 10px;
+    padding: 12px 15px;
+    min-width: 240px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.selector:hover {
+    box-shadow: 0 0 15px #5a3fff;
+}
+
+.selector:focus-within {
+    box-shadow: 0 0 15px #5a3fff;
+    outline: 2px solid #5a3fff;
+}
+
+.selected {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-height: 20px;
+}
+
+.placeholder { color: #aaa; }
+
+.option-tag {
+    background: #5a3fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    animation: popIn 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.option-tag::after {
+    content: '×';
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.option-tag::after:hover { opacity: 1; }
+
+.arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.arrow::before { content: '‹'; }
+
+.selector.open .arrow::before {
+    content: '›';
+    transform: rotate(90deg);
+}
+
+.options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #222;
+    border-radius: 0 0 10px 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.selector.open .options {
+    max-height: 300px;
+    padding: 8px 0;
+    border-top: 1px solid #333;
+}
+
+.options::-webkit-scrollbar { width: 6px; }
+.options::-webkit-scrollbar-track { background: transparent; }
+.options::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+
+.option {
+    padding: 12px 18px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+}
+
+.option:hover { background: #5a3fff; }
+.option.selected { background: #444; font-weight: bold; }
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.badge {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background: #000 !important;
+    color: #fff !important;
+    padding: 10px 15px !important;
+    border-radius: 25px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    z-index: 1000 !important;
+    user-select: none !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="selector" tabindex="0" data-multi="false">
+    <div class="selected"><span class="placeholder">Select one...</span><div class="arrow"></div></div>
+    <div class="options">
+        <div class="option">Option 1</div>
+        <div class="option">Option 2</div>
+        <div class="option">Option 3</div>
+        <div class="option">Option 4</div>
+        <div class="option">Option 5</div>
+    </div>
+</div>
+
+<div class="selector" tabindex="0" data-multi="true">
+    <div class="selected"><span class="placeholder">Select multiple...</span><div class="arrow"></div></div>
+    <div class="options">
+        <div class="option">Apple</div>
+        <div class="option">Banana</div>
+        <div class="option">Cherry</div>
+        <div class="option">Date</div>
+        <div class="option">Elderberry</div>
+        <div class="option">Fig</div>
+        <div class="option">Grape</div>
+        <div class="option">Honeydew</div>
+    </div>
+</div>
+
+<div class="badge" onclick="window.open('https://github.com/davidhurmut/htmlassets/tree/main','_blank')">
+    <span>💻</span>
+    This code is from HTML Assets
+</div>
+
+<script>
+document.addEventListener('click', function(e) {
+    document.querySelectorAll('.selector').forEach(sel => {
+        if (!sel.contains(e.target)) sel.classList.remove('open');
+    });
+});
+
+document.querySelectorAll('.selector').forEach(selector => {
+    const selectedDiv = selector.querySelector('.selected');
+    const optionsContainer = selector.querySelector('.options');
+    const options = optionsContainer.querySelectorAll('.option');
+    const arrow = selector.querySelector('.arrow');
+    const isMulti = selector.dataset.multi === 'true';
+    const placeholderText = selectedDiv.querySelector('.placeholder').textContent;
+    let selectedValues = [];
+
+    selector.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = selector.classList.contains('open');
+        document.querySelectorAll('.selector').forEach(s => s.classList.remove('open'));
+        if (!isOpen || selector.contains(e.target)) selector.classList.toggle('open');
+    });
+
+    options.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.textContent.trim();
+            if (isMulti) {
+                if (selectedValues.includes(value)) {
+                    selectedValues = selectedValues.filter(v => v !== value);
+                    this.classList.remove('selected');
+                } else {
+                    selectedValues.push(value);
+                    this.classList.add('selected');
+                }
+            } else {
+                selectedValues = [value];
+                options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selector.classList.remove('open');
+            }
+            updateSelectedDisplay();
+        });
+    });
+
+    selectedDiv.addEventListener('click', function(e) {
+        if (e.target.classList.contains('option-tag') || e.target.parentElement.classList.contains('option-tag')) {
+            const tag = e.target.closest('.option-tag');
+            const value = tag.querySelector('span').textContent;
+            selectedValues = selectedValues.filter(v => v !== value);
+            options.forEach(opt => { if (opt.textContent.trim() === value) opt.classList.remove('selected'); });
+            updateSelectedDisplay();
+        }
+    });
+
+    function updateSelectedDisplay() {
+        selectedDiv.innerHTML = '';
+        if (selectedValues.length === 0) selectedDiv.innerHTML = `<span class="placeholder">${placeholderText}</span>`;
+        else if (isMulti) {
+            selectedValues.forEach(val => {
+                const tag = document.createElement('div');
+                tag.className = 'option-tag';
+                tag.innerHTML = `<span>${val}</span>`;
+                selectedDiv.appendChild(tag);
+            });
+        } else {
+            const tag = document.createElement('div');
+            tag.className = 'option-tag';
+            tag.innerHTML = `<span>${selectedValues[0]}</span>`;
+            selectedDiv.appendChild(tag);
+        }
+        selectedDiv.appendChild(arrow);
+    }
+
+    updateSelectedDisplay();
+});
+</script>
+</body>
+</html>
