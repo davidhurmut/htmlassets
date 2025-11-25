@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Assets</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #888;
+    color: #fff;
+}
+
+.container {
+    background: #222;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #5a3fff;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #111;
+    transition: 0.3s;
+}
+
+.tab.active {
+    background: #5a3fff;
+    color: #fff;
+}
+
+.form {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form.active {
+    display: flex;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group input {
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    background: #111;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+.input-group label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    color: #aaa;
+    pointer-events: none;
+    transition: 0.3s;
+    background: #222;
+    padding: 0 4px;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #5a3fff;
+}
+
+button {
+    padding: 12px;
+    background: #5a3fff;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #7b5fff;
+}
+
+.forgot {
+    text-align: right;
+    font-size: 12px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.forgot:hover {
+    color: #5a3fff;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    color: #fff;
+}
+
+.social-google { background: #dd4b39; }
+.social-google:hover { background: #e65b49; }
+
+.social-github { background: #333; }
+.social-github:hover { background: #555; }
+
+.social-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.badge {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background: #000 !important;
+    color: #fff !important;
+    padding: 10px 15px !important;
+    border-radius: 25px !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    z-index: 1000 !important;
+    user-select: none !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tabs">
+        <div class="tab active" id="loginTab">Login</div>
+        <div class="tab" id="signupTab">Sign Up</div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form active" id="loginForm">
+        <div class="input-group">
+            <input type="text" id="loginUsername" placeholder=" " required>
+            <label for="loginUsername">Username</label>
+        </div>
+        <div class="input-group">
+            <input type="password" id="loginPassword" placeholder=" " required>
+            <label for="loginPassword">Password</label>
+        </div>
+        <div class="forgot" id="loginForgot">Forgot password?</div>
+        <button id="loginBtn">Login</button>
+        <div class="social-container">
+            <button class="social-btn social-google" id="loginGoogle">Login with Google</button>
+            <button class="social-btn social-github" id="loginGitHub">Login with GitHub</button>
+        </div>
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="form" id="signupForm">
+        <div class="input-group">
+            <input type="text" id="signupUsername" placeholder=" " required>
+            <label for="signupUsername">Username</label>
+        </div>
+        <div class="input-group">
+            <input type="email" id="signupEmail" placeholder=" " required>
+            <label for="signupEmail">Email</label>
+        </div>
+        <div class="input-group">
+            <input type="password" id="signupPassword" placeholder=" " required>
+            <label for="signupPassword">Password</label>
+        </div>
+        <button id="signupBtn">Sign Up</button>
+        <div class="social-container">
+            <button class="social-btn social-google" id="signupGoogle">Sign up with Google</button>
+            <button class="social-btn social-github" id="signupGitHub">Sign up with GitHub</button>
+        </div>
+    </div>
+</div>
+
+<div class="badge" onclick="window.open('https://github.com/davidhurmut/htmlassets/tree/main','_blank')">
+    <span>💻</span>
+    This code is from HTML Assets
+</div>
+
+<script>
+// Tab switching
+const loginTab = document.getElementById('loginTab');
+const signupTab = document.getElementById('signupTab');
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+
+loginTab.addEventListener('click', ()=>{
+    loginTab.classList.add('active');
+    signupTab.classList.remove('active');
+    loginForm.classList.add('active');
+    signupForm.classList.remove('active');
+});
+
+signupTab.addEventListener('click', ()=>{
+    signupTab.classList.add('active');
+    loginTab.classList.remove('active');
+    signupForm.classList.add('active');
+    loginForm.classList.remove('active');
+});
+
+// Login alerts
+document.getElementById('loginBtn').addEventListener('click', ()=>{
+    const user = document.getElementById('loginUsername').value.trim();
+    const pass = document.getElementById('loginPassword').value.trim();
+    if(!user || !pass){
+        alert("Please fill in both username and password.");
+    } else {
+        alert(`Logged in as: ${user}`);
+    }
+});
+
+document.getElementById('loginForgot').addEventListener('click', ()=>{
+    alert("Password recovery is not implemented. This is a demo alert.");
+});
+
+document.getElementById('loginGoogle').addEventListener('click', ()=>{
+    alert("Google login clicked (demo alert).");
+});
+document.getElementById('loginGitHub').addEventListener('click', ()=>{
+    alert("GitHub login clicked (demo alert).");
+});
+
+// Sign up alerts
+document.getElementById('signupBtn').addEventListener('click', ()=>{
+    const user = document.getElementById('signupUsername').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const pass = document.getElementById('signupPassword').value.trim();
+    if(!user || !email || !pass){
+        alert("Please fill in all fields to sign up.");
+    } else {
+        alert(`Signed up as: ${user} (${email})`);
+    }
+});
+document.getElementById('signupGoogle').addEventListener('click', ()=>{
+    alert("Google sign up clicked (demo alert).");
+});
+document.getElementById('signupGitHub').addEventListener('click', ()=>{
+    alert("GitHub sign up clicked (demo alert).");
+});
+</script>
+
+</body>
+</html>
