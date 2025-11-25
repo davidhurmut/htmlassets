@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Assets</title>
+<style>
+:root{--hue1:280;--hue2:330}
+*,*::before,*::after{box-sizing:border-box}
+body,html{margin:0;padding:0;height:100%;background:#000;color:#fff;font-family:system-ui,sans-serif;overflow:hidden}
+.bg-animation{
+  position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(circle at 20% 80%,hsl(var(--hue1),70%,60%) 0%,transparent 50%),
+    radial-gradient(circle at 80% 20%,hsl(var(--hue2),70%,60%) 0%,transparent 50%),
+    radial-gradient(circle at 50% 50%,#1a0033 0%,#000 70%);
+  background-size:200% 200%;
+  animation:colorFlow 18s ease infinite;
+}
+.ring{
+  position:absolute;border-radius:50%;border:3px solid;opacity:.15;
+  animation:rotate 40s linear infinite;
+}
+.ring1{width:600px;height:600px;border-color:hsl(var(--hue1),80%,70%);top:-200px;right:-200px}
+.ring2{width:800px;height:800px;border-color:hsl(var(--hue2),80%,70%);bottom:-300px;left:-300px;animation-direction:reverse}
+@keyframes colorFlow{
+  0%,100%{background-position:0% 50%;--hue1:280;--hue2:330}
+  25%{--hue1:300;--hue2:10}
+  50%{background-position:100% 50%;--hue1:320;--hue2:50}
+  75%{--hue1:260;--hue2:90}
+}
+@keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+main{
+  position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;padding:4rem 1.5rem;text-align:center;
+}
+h1{
+  font-size:3rem;font-weight:900;margin:0 0 1rem;
+  background:linear-gradient(90deg,#c77dff,#ff6cd9,#ff9eff);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;background-size:300%;
+  animation:gradientShift 8s ease infinite;
+}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+#search{
+  width:90%;max-width:500px;padding:1rem 1.5rem;font-size:1rem;
+  border-radius:50px;border:2px solid transparent;background:rgba(30,10,60,.7);
+  backdrop-filter:blur(12px);color:#fff;outline:none;
+  box-shadow:0 6px 20px rgba(0,0,0,.5);transition:all .3s;margin-bottom:2rem;
+}
+#search:focus{border-color:#ff69b4;box-shadow:0 0 24px rgba(255,105,180,.5);transform:scale(1.02);}
+#search::placeholder{color:#bb88ff}
+.assets{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:1rem;width:90%;max-width:1000px;opacity:0;transition:opacity .3s;
+}
+.assets.show{opacity:1}
+.asset-btn{
+  padding:.85rem 1.2rem;border-radius:10px;border:none;
+  background:rgba(20,10,50,.8);backdrop-filter:blur(6px);
+  color:#0ff;font-weight:600;font-size:.9rem;cursor:pointer;
+  transition:all .25s;letter-spacing:.5px;text-transform:uppercase;
+}
+.asset-btn:hover{
+  background:#0ff;color:#000;transform:translateY(-4px);
+  box-shadow:0 8px 20px rgba(0,255,255,.3);
+}
+.no-results{
+  margin-top:1.5rem;font-size:1rem;color:#ff6cd9;opacity:.8;
+}
+</style>
+</head>
+<body>
+<div class="bg-animation"></div>
+<div class="ring ring1"></div>
+<div class="ring ring2"></div>
+<main>
+  <h1>HTML Assets</h1>
+  <input type="text" id="search" placeholder="type to filter" autocomplete="off">
+  <div class="assets" id="assets"></div>
+  <div class="no-results" id="noresults" style="display:none">NOTHING FOUND</div>
+</main>
+<script>
+const assetsContainer = document.getElementById('assets');
+const searchInput = document.getElementById('search');
+const noResults = document.getElementById('noresults');
+let assetList = [];
+function loadAssets(){
+  fetch('https://api.github.com/repos/davidhurmut/htmlassets/contents/assets')
+    .then(r=>r.json())
+    .then(data=>{
+      assetList = data.filter(f=>f.name.endsWith('.html'))
+        .map(f=>({name:f.name.replace('.html','').replace(/-/g,' ').toUpperCase(),url:f.download_url}))
+        .sort((a,b)=>a.name.localeCompare(b.name));
+      searchInput.focus();
+    });
+}
+setTimeout(loadAssets,Math.random()*2000+1000);
+searchInput.oninput = () => {
+  const query = searchInput.value.toLowerCase().trim();
+  if(!query){assetsContainer.classList.remove('show'); assetsContainer.innerHTML=''; noResults.style.display='none'; return;}
+  const hits = assetList.filter(a=>a.name.toLowerCase().includes(query));
+  assetsContainer.classList.add('show');
+  noResults.style.display = hits.length ? 'none':'block';
+  assetsContainer.innerHTML = hits.map(h=>`<button class="asset-btn" onclick="window.open('${h.url}','_blank')">${h.name}</button>`).join('');
+};
+</script>
+</body>
+</html>
