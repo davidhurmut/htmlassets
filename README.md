@@ -1,6 +1,5 @@
 <div align="center" id="htmlassets">
   <a href="https://github.com/davidhurmut/htmlassets" title="HTML Assets">
-    <img src="/_images/banner.webp" alt="HTML Assets Banner" width="80%">
   </a>
   🚀 Free and open-source collection of <strong>HTML assets</strong> — ready-to-use components, templates, and snippets for web development
 
