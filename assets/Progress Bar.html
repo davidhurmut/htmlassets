@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Assets</title>
+<style>
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #888;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    gap: 20px;
+}
+
+.progress-bar {
+    width: 300px; 
+    height: 20px; 
+    background: #222; 
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress {
+    height: 100%; 
+    background: #5a3fff; 
+    width: 0%; 
+    transition: width 0.4s ease;
+}
+
+button {
+    padding: 8px 16px;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+button:hover {
+    background: #5a3fff;
+}
+
+.badge {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background: #000 !important;
+    color: #fff !important;
+    padding: 10px 15px !important;
+    border-radius: 25px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    z-index: 1000 !important;
+    user-select: none !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar">
+    <div class="progress" style="width:0%"></div>
+</div>
+<button onclick="increase()">Increase</button>
+
+<div class="badge" onclick="window.open('https://github.com/davidhurmut/htmlassets/tree/main','_blank')">
+    <span>💻</span>
+    This code is from HTML Assets
+</div>
+
+<script>
+let value = 0;
+function increase() {
+    value = Math.min(100, value + 10);
+    document.querySelector('.progress').style.width = value + '%';
+}
+</script>
+
+</body>
+</html>
