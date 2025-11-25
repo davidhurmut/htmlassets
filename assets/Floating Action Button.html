@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Assets</title>
+<style>
+.fab {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: #5a3fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #fff;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.fab:hover {
+    transform: scale(1.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.badge {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background: #000 !important;
+    color: #fff !important;
+    padding: 10px 15px !important;
+    border-radius: 25px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    z-index: 1000 !important;
+    user-select: none !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="fab">+</div>
+
+<div class="badge" onclick="window.open('https://github.com/davidhurmut/htmlassets/tree/main','_blank')">
+    <span>💻</span>
+    This code is from HTML Assets
+</div>
+
+</body>
+</html>
