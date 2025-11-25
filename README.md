@@ -1,16 +1,18 @@
+<div align="center" id="htmlassets">
+  <a href="https://github.com/davidhurmut/htmlassets" title="HTML Assets">
+    <img src="/_images/banner.webp" alt="HTML Assets Banner" width="80%">
+  </a>
+  🚀 Free and open-source collection of <strong>HTML assets</strong> — ready-to-use components, templates, and snippets for web development
 
-# HTML Assets
+  <br><br>
 
-A repository of open-source HTML assets to speed up web development.  
-Includes components, templates, and reusable snippets for all skill levels.
+  [![GitHub Stars](https://img.shields.io/github/stars/davidhurmut/htmlassets?style=flat-square&logo=github&color=yellow)](https://github.com/davidhurmut/htmlassets/stargazers)
+  [![GitHub Forks](https://img.shields.io/github/forks/davidhurmut/htmlassets?style=flat-square&logo=github&color=blue)](https://github.com/davidhurmut/htmlassets/network/members)
+  [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+  [![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/davidhurmut/htmlassets)
+</div>
 
-## Features
-- Responsive templates
-- Buttons, forms, and UI components
-- Ready-to-use HTML snippets
+## 📜 License
 
-## Contributing
-Feel free to fork, contribute, and submit pull requests!  
+This project is licensed under the [MIT License](LICENSE), allowing free use, modification, and distribution.
 
-## License
-This project is licensed under the [MIT License](LICENSE).
