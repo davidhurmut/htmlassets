@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Assets</title>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #000;
+    height: 100%;
+    cursor: default;
+}
+
+canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    display: block;
+}
+
+.badge {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background: #000 !important;
+    color: #fff !important;
+    padding: 10px 15px !important;
+    border-radius: 25px !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    z-index: 1000 !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    pointer-events: none !important;
+}
+
+.icon {
+    font-size: 14px !important;
+}
+</style>
+</head>
+<body>
+
+<canvas id="galaxy"></canvas>
+
+<div class="badge">
+    <span class="icon">💻</span>
+    This code is from HTML Assets
+</div>
+
+<script>
+const canvas = document.getElementById("galaxy");
+const ctx = canvas.getContext("2d");
+let w = window.innerWidth;
+let h = window.innerHeight;
+canvas.width = w;
+canvas.height = h;
+
+window.addEventListener("resize", () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+});
+
+const starCount = 1000;
+const stars = [];
+for (let i = 0; i < starCount; i++) {
+    let isPurple = Math.random() < 0.15;
+    stars.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: isPurple ? 1.5 : 0.8,
+        speed: Math.random() * 0.3 + 0.05,
+        color: isPurple ? "rgba(170,120,255" : "rgba(255,255,255"
+    });
+}
+
+const shootingStars = [];
+
+function createShootingStar() {
+    shootingStars.push({
+        x: Math.random() * w,
+        y: Math.random() * h / 2,
+        length: Math.random() * 60 + 20,
+        speed: Math.random() * 3 + 2,
+        alpha: 0,
+        fadeIn: true
+    });
+}
+
+setInterval(() => {
+    if (Math.random() < 0.1) createShootingStar();
+}, 1500);
+
+function updateStars() {
+    for (let s of stars) {
+        s.y += s.speed;
+        if (s.y > h) {
+            s.y = 0;
+            s.x = Math.random() * w;
+        }
+    }
+
+    for (let i = shootingStars.length - 1; i >= 0; i--) {
+        let s = shootingStars[i];
+
+        s.x += s.speed;
+        s.y += s.speed * 0.3;
+
+        if (s.fadeIn) {
+            s.alpha += 0.02;
+            if (s.alpha >= 1) s.fadeIn = false;
+        } else {
+            s.alpha -= 0.01;
+        }
+
+        if (s.alpha <= 0 || s.x > w || s.y > h) shootingStars.splice(i, 1);
+    }
+}
+
+function drawStars(t) {
+    for (let s of stars) {
+        let twinkle = 0.5 + Math.sin(t * 0.002 + s.x) * 0.5;
+        ctx.fillStyle = `${s.color},${twinkle})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+        ctx.fill();
+
+        if (s.color.includes("170")) {
+            let gradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size*4);
+            gradient.addColorStop(0, `${s.color},0.3)`);
+            gradient.addColorStop(1, "rgba(0,0,0,0)");
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size*4, 0, Math.PI*2);
+            ctx.fill();
+        }
+    }
+
+    for (let s of shootingStars) {
+        ctx.strokeStyle = `rgba(255,255,255,${s.alpha})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x - s.length, s.y - s.length * 0.3);
+        ctx.stroke();
+    }
+}
+
+function loop(t) {
+    ctx.clearRect(0, 0, w, h);
+    updateStars();
+    drawStars(t);
+    requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+</script>
+
+</body>
+</html>
